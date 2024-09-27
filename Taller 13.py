@@ -2,22 +2,26 @@ import math
 from math import e
 
 x = 0,405
-h = 0,4
+base = 0,4
+h = (x - base)
 
 valor_real = e**-x
 
 resultado = 0
 
-error = []
 
 for i in range(16):
-    termino = (valor_real * ((x - h) ** i) / math.factorial(i)) * (-1) ** i
-    valor_real += termino
+    valor_ant = resultado
+    
+    termino = (e**-base / math.factorial(i)) * (h**i)
+    
+    if i % 2 == 0:
+        resultado +=termino
+    else:
+        resultado -=termino
 
-    error_relativo = abs((valor_real - resultado) / valor_real) * 100
-    error.append(error_relativo)
-
-    print(f"Orden: {i} ", "Estimación: {resultado}", "Error: {error_relativo}")
+    error=abs((resultado - valor_ant)/resultado)*100
+    print(f"{i:<6} {resultado:<15.10f} {error}")
 
 
 
