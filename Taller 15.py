@@ -1,21 +1,28 @@
-import numpy as np
-
-A = np.array([[1, 0, 1, 5], 
-              [3, 4, 3, 23], 
-              [4, 1, 0, 30]], dtype=float)
-
 def gauss_jordan(A):
     n = len(A)
+    
     for i in range(n):
-        # Hacer el pivote igual a 1
-        A[i] = A[i] / A[i][i]
+        pivote = A[i][i]
+        for k in range(n + 1):
+            A[i][k] /= pivote
+        
         for j in range(n):
             if i != j:
-                A[j] = A[j] - A[j][i] * A[i]
-    return A
+                factor = A[j][i]
+                for k in range(n + 1):
+                    A[j][k] -= factor * A[i][k]
+    
+    soluciones = [A[i][-1] for i in range(n)]
+    return soluciones
+
+A = [
+    [1, 0, 1, 5],    # x1 + x3 = 5
+    [3, 4, 3, 23],   # 3x1 + 4x2 + 3x3 = 23
+    [4, 1, 0, 30]    # 4x1 + x2 = 30
+]
 
 solucion = gauss_jordan(A)
 
-print(f"x1 = {solucion[0][-1]}")
-print(f"x2 = {solucion[1][-1]}")
-print(f"x3 = {solucion[2][-1]}")
+x1, x2, x3 = solucion
+print(f"x1 = {x1}, x2 = {x2}, x3 = {x3}")
+
